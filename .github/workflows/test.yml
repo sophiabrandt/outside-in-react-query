@@ -18,7 +18,7 @@ jobs:
       - name: Install Dependencies
         run: bun install --frozen-lockfile
       - name: Load environment variables
-        uses: dmno-dev/varlock-action@v1
+        run:  bun run load
       - name: Unit Tests
         run: bun run test
       - name: Install Playwright Browsers
