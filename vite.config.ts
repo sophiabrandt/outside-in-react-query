@@ -24,6 +24,7 @@ export default defineConfig({
     coverage: {
       reporter: ["text-summary", "lcov", "html"],
       include: ["src/**"],
+      exclude: ["src/app", "src/main.tsx"]
     },
   },
 });

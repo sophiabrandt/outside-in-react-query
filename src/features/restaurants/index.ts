@@ -1,2 +1,2 @@
 export { RestaurantsScreen } from "./ui/RestaurantScreen";
-export type { Restaurant } from "./model";
+export type { Restaurant, Restaurants } from "./model";

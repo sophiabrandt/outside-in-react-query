@@ -23,9 +23,11 @@
     "test:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.90.16",
+    "@tanstack/react-query": "^5.91.3",
+    "ky": "^1.14.3",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -42,6 +44,7 @@
     "@vitest/coverage-v8": "^4.0.16",
     "globals": "^16.5.0",
     "jsdom": "^27.4.0",
+    "msw": "^2.12.14",
     "oxfmt": "^0.21.0",
     "oxlint": "^1.36.0",
     "playwright": "^1.57.0",

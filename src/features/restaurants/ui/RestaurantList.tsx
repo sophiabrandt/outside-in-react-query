@@ -7,7 +7,7 @@ interface RestaurantListProps {
 export const RestaurantList = ({ restaurants }: RestaurantListProps) => {
   return (
     <ul>
-      {restaurants.map(({id, name}) => (
+      {restaurants.map(({ id, name }) => (
         <li key={id}>{name}</li>
       ))}
     </ul>
