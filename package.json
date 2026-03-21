@@ -6,6 +6,7 @@
   "scripts": {
     "compile": "tsc --noEmit",
     "dev": "vite",
+    "load": "bunx varlock load",
     "start": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint {src,test}",
@@ -14,6 +15,7 @@
     "format:check": "oxfmt {src,test} --check",
     "check": "bun run lint && bun run format:check",
     "preview": "vite preview",
+    "scan": "bunx varlock scan",
     "test": "vitest run",
     "test:verbose": "vitest --reporter=verbose",
     "test:cov": "vitest --coverage",
@@ -24,9 +26,11 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.91.3",
+    "@varlock/vite-integration": "^0.2.6",
     "ky": "^1.14.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "varlock": "^0.6.2",
     "zod": "^4.3.6"
   },
   "devDependencies": {

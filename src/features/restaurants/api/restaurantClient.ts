@@ -1,8 +1,8 @@
 import ky from "ky";
 import { restaurantsSchema } from "../model";
+import { ENV } from "varlock/env";
 
-// TODO: better env variables!
-const baseURL = `https://api.outsidein.dev/${import.meta.env.VITE_API_KEY}`;
+const baseURL = `https://api.outsidein.dev/${ENV.API_KEY}`;
 
 export const restaurantClient = Object.freeze({
   get: async () => {
