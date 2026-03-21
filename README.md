@@ -8,6 +8,7 @@ _Note_: this project is from the book [Outside-In React Development](https://out
 - [vite](https://vitejs.dev) & [vitest](https://vitest.dev)
 - [Playwright](https://playwright.dev) instead of Cypress
 - [React Query/Tanstack Query](https://tanstack.com/query/latest) for async state management
+- Vertical Slice architecture according to [Advanced Frontend Course](https://advancedfrontendcourse.com/) by [Dmitriy Zhiganov](https://www.youtube.com/@d.zhiganov)
 
 # Installation
 
@@ -25,7 +26,13 @@ You will need an API key for the backend server. Check [https://api.outsidein.de
 Create a new file called `.env.local` and add the key:
 
 ```
-VITE_API_KEY=
+API_KEY=
+```
+
+Load the environment variables with [varlock](https://varlock.dev):
+
+```sh
+bun run load
 ```
 
 ## Usage
