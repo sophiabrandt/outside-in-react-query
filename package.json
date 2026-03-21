@@ -6,6 +6,7 @@
   "scripts": {
     "compile": "tsc --noEmit",
     "dev": "vite",
+    "load": "bunx varlock load",
     "start": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint {src,test}",
@@ -14,6 +15,7 @@
     "format:check": "oxfmt {src,test} --check",
     "check": "bun run lint && bun run format:check",
     "preview": "vite preview",
+    "scan": "bunx varlock scan",
     "test": "vitest run",
     "test:verbose": "vitest --reporter=verbose",
     "test:cov": "vitest --coverage",
@@ -23,13 +25,17 @@
     "test:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.90.16",
+    "@tanstack/react-query": "^5.91.3",
+    "@varlock/vite-integration": "^0.2.6",
+    "ky": "^1.14.3",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "varlock": "^0.6.2",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "playwright": "^1.57.0",
+    "@faker-js/faker": "^10.3.0",
     "@playwright/test": "^1.57.0",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
@@ -42,8 +48,10 @@
     "@vitest/coverage-v8": "^4.0.16",
     "globals": "^16.5.0",
     "jsdom": "^27.4.0",
+    "msw": "^2.12.14",
     "oxfmt": "^0.21.0",
     "oxlint": "^1.36.0",
+    "playwright": "^1.57.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4",

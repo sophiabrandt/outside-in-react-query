@@ -14,9 +14,11 @@ jobs:
         with:
           bun-version: latest
       - name: Set environment for Test
-        run: echo "VITE_API_KEY=xxxxx" > .env
+        run: echo "API_KEY=xxxxx" > .env
       - name: Install Dependencies
         run: bun install --frozen-lockfile
+      - name: Load environment variables
+        run:  bun run load
       - name: Unit Tests
         run: bun run test
       - name: Install Playwright Browsers

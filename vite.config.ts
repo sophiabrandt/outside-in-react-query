@@ -3,16 +3,17 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { varlockVitePlugin } from "@varlock/vite-integration";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
     port: 3000,
   },
-  plugins: [react(), tsconfigPaths()],
+  plugins: [react(), tsconfigPaths(), varlockVitePlugin()],
   resolve: {
     alias: {
-      "@/": path.resolve(__dirname, "src"),
+      "@": path.resolve(__dirname, "src"),
     },
   },
   test: {
@@ -24,6 +25,7 @@ export default defineConfig({
     coverage: {
       reporter: ["text-summary", "lcov", "html"],
       include: ["src/**"],
+      exclude: ["src/app", "src/main.tsx"],
     },
   },
 });
