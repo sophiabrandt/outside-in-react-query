@@ -1,13 +1,41 @@
 import { useRestaurantDataQuery } from "../hooks/useRestaurantDataQuery";
 import { RestaurantList } from "./RestaurantList";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from "@/shared/components/ui/card";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 
 export const RestaurantsScreen = () => {
   const { data: restaurants } = useRestaurantDataQuery();
-  // TODO: handle loading states
-  return (
-    <>
-      <h1>Restaurants</h1>
-      {restaurants ? <RestaurantList restaurants={restaurants} /> : null}
-    </>
-  );
+
+  if (restaurants) {
+    return <RestaurantList restaurants={restaurants} />;
+  }
+
+  return <LoadingSkeleton />;
 };
+
+const LoadingSkeleton = () => (
+  <ul data-testid="loading-skeleton" className="grid gap-4 list-none p-0 mx-8" aria-busy="true">
+    {Array.from({ length: 2 }, (_, i) => (
+      <li key={i}>
+        <Card>
+          <CardHeader>
+            <CardTitle>
+              <Skeleton className="h-4 w-32" />
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>
+              <Skeleton className="h-3 w-48" />
+            </CardDescription>
+          </CardContent>
+        </Card>
+      </li>
+    ))}
+  </ul>
+);
