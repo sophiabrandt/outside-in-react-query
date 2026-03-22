@@ -6,7 +6,6 @@ export const RestaurantsScreen = () => {
   // TODO: handle loading states
   return (
     <>
-      <h1>Restaurants</h1>
       {restaurants ? <RestaurantList restaurants={restaurants} /> : null}
     </>
   );
