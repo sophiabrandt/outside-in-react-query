@@ -7,9 +7,7 @@ export const App = () => {
   return (
     <Providers>
       <Toolbar>
-        <h1 className="text-lg font-semibold w-full text-center">
-          Outside In React Query Example
-        </h1>
+        <h1 className="text-lg font-semibold w-full text-center">Outside In React Query Example</h1>
       </Toolbar>
       <Spacer size="md" />
       <RestaurantsScreen />

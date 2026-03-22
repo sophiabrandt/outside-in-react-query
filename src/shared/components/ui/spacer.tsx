@@ -33,8 +33,7 @@ import { cn } from "@/shared/lib/utils";
 export type SpacerSize = "none" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 export type SpacerAxis = "horizontal" | "vertical";
 
-export interface SpacerProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface SpacerProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: SpacerSize;
   axis?: SpacerAxis;
 }
@@ -71,10 +70,7 @@ export const Spacer = React.forwardRef<HTMLDivElement, SpacerProps>(
     // - vertical: block so it creates vertical spacing between block siblings
     const axisBase = axis === "horizontal" ? "inline-block" : "block";
 
-    const axisSizeClass =
-      axis === "horizontal"
-        ? HORIZONTAL_SIZES[size]
-        : VERTICAL_SIZES[size];
+    const axisSizeClass = axis === "horizontal" ? HORIZONTAL_SIZES[size] : VERTICAL_SIZES[size];
 
     return (
       <div
@@ -85,7 +81,7 @@ export const Spacer = React.forwardRef<HTMLDivElement, SpacerProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
 Spacer.displayName = "Spacer";
