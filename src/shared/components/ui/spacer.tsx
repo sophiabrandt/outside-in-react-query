@@ -77,7 +77,7 @@ export const Spacer = React.forwardRef<HTMLDivElement, SpacerProps>(
         ref={ref}
         role="presentation"
         aria-hidden
-        className={cn("flex-shrink-0", axisBase, axisSizeClass, className)}
+        className={cn("shrink-0", axisBase, axisSizeClass, className)}
         {...props}
       />
     );
