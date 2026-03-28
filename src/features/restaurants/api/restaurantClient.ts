@@ -1,5 +1,5 @@
 import ky from "ky";
-import { restaurantsSchema } from "../model";
+import { restaurantsSchema, type Restaurant } from "../model";
 import { ENV } from "varlock/env";
 import { z } from "zod/mini";
 
@@ -16,6 +16,13 @@ export const restaurantClient = Object.freeze({
         throw new Error("Failed to parse restaurants response");
       }
       throw error;
+    }
+  },
+  post: async (restaurantName: Restaurant["name"]) => {
+    try {
+      return await ky.post(`${baseURL}/restaurants`, { json: { name: restaurantName } }).json();
+    } catch {
+      // TODO
     }
   },
 });

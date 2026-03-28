@@ -13,7 +13,7 @@ interface RestaurantListProps {
 
 export const RestaurantList = ({ restaurants }: RestaurantListProps) => {
   return (
-    <ul className="grid gap-4 list-none p-0 mx-8">
+    <ul className="grid gap-4 list-none p-0">
       {restaurants.map(({ id, name }) => (
         <li key={id}>
           <Card>

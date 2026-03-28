@@ -1,4 +1,6 @@
-import { useRestaurantDataQuery } from "../hooks/useRestaurantDataQuery";
+import Spacer from "@/shared/components/ui/spacer";
+import { useNewRestaurantDataMutation, useRestaurantQuery } from "../hooks/useRestaurantQueries";
+import { NewRestaurantForm } from "./NewRestaurantForm";
 import { RestaurantList } from "./RestaurantList";
 import {
   Card,
@@ -10,10 +12,17 @@ import {
 import { Skeleton } from "@/shared/components/ui/skeleton";
 
 export const RestaurantsScreen = () => {
-  const { data: restaurants } = useRestaurantDataQuery();
+  const { data: restaurants } = useRestaurantQuery();
+  const newRestaurant = useNewRestaurantDataMutation();
 
   if (restaurants) {
-    return <RestaurantList restaurants={restaurants} />;
+    return (
+      <div className="mx-8">
+        <NewRestaurantForm createRestaurant={newRestaurant.mutate} />
+        <Spacer size="sm" />
+        <RestaurantList restaurants={restaurants} />
+      </div>
+    );
   }
 
   return <LoadingSkeleton />;
