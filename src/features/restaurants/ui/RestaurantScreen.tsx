@@ -1,5 +1,9 @@
 import Spacer from "@/shared/components/ui/spacer";
-import { useNewRestaurantDataMutation, useRestaurantQuery } from "../hooks/useRestaurantQueries";
+import {
+  restaurantQueryKeys,
+  useNewRestaurantDataMutation,
+  useRestaurantQuery,
+} from "../hooks/useRestaurantQueries";
 import { NewRestaurantForm } from "./NewRestaurantForm";
 import { RestaurantList } from "./RestaurantList";
 import {
@@ -10,8 +14,37 @@ import {
   CardDescription,
 } from "@/shared/components/ui/card";
 import { Skeleton } from "@/shared/components/ui/skeleton";
+import { ErrorBoundary, type FallbackProps } from "react-error-boundary";
+import { Button } from "@/shared/components/ui/button";
+import { useQueryClient } from "@tanstack/react-query";
+
+const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre style={{ color: "red" }}>
+        {error instanceof Error ? error.message : "Something went wrong"}
+      </pre>
+      <Button onClick={resetErrorBoundary}>Try again</Button>
+    </div>
+  );
+};
 
 export const RestaurantsScreen = () => {
+  const queryClient = useQueryClient();
+  return (
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onReset={() => {
+        queryClient.resetQueries({ queryKey: restaurantQueryKeys.all });
+      }}
+    >
+      <RestaurantsDisplay />
+    </ErrorBoundary>
+  );
+};
+
+const RestaurantsDisplay = () => {
   const { data: restaurants } = useRestaurantQuery();
   const newRestaurant = useNewRestaurantDataMutation();
 
