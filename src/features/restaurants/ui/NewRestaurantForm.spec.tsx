@@ -1,20 +1,28 @@
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
+import { ErrorBoundary } from "react-error-boundary";
 import { NewRestaurantForm } from "./NewRestaurantForm";
 
-describe("RestaurantForm", () => {
+describe("NewRestaurantForm", () => {
   it("should fill in restaurant form", async () => {
     const restaurantName = "Nomnomnom";
     const createRestaurant = vi.fn();
     const user = userEvent.setup();
 
-    render(<NewRestaurantForm createRestaurant={createRestaurant} />);
+    render(
+      <ErrorBoundary fallbackRender={() => <div>error</div>}>
+        <NewRestaurantForm createRestaurant={createRestaurant} />
+      </ErrorBoundary>,
+    );
 
-    await user.type(screen.getByRole("textbox"), restaurantName);
-    await user.click(screen.getByRole("button"));
+    const input = screen.getByRole("textbox");
+    const button = screen.getByRole("button", { name: /add/i });
+
+    await user.type(input, restaurantName);
+    await user.click(button);
 
     expect(createRestaurant).toHaveBeenNthCalledWith(1, restaurantName);
-    expect(screen.getByRole("textbox")).toHaveTextContent("");
+    expect(screen.getByRole("textbox")).toHaveValue("");
   });
 });

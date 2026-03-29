@@ -3,7 +3,7 @@ import {
   restaurantQueryKeys,
   useNewRestaurantDataMutation,
   useRestaurantQuery,
-} from "../hooks/useRestaurantQueries";
+} from "../utils/useRestaurantQueries";
 import { NewRestaurantForm } from "./NewRestaurantForm";
 import { RestaurantList } from "./RestaurantList";
 import {

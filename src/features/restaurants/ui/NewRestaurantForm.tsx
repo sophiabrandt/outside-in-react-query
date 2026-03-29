@@ -1,18 +1,16 @@
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
-import { useNewRestaurantDataMutation } from "../hooks/useRestaurantQueries";
+import { useNewRestaurantDataMutation } from "../utils/useRestaurantQueries";
+import { newRestaurantForm } from "../utils/newRestaurantForm";
+import { useErrorBoundary } from "react-error-boundary";
 
 interface NewRestaurantFormProps {
   createRestaurant: ReturnType<typeof useNewRestaurantDataMutation>["mutate"];
 }
 
 export const NewRestaurantForm = ({ createRestaurant }: NewRestaurantFormProps) => {
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const { form, restaurantName } = readForm(event);
-    createRestaurant(restaurantName);
-    form.reset();
-  };
+  const { showBoundary } = useErrorBoundary();
+  const { onSubmit } = newRestaurantForm(createRestaurant, showBoundary);
 
   return (
     <form noValidate onSubmit={onSubmit} className="inline-flex w-full gap-x-1">
@@ -21,11 +19,3 @@ export const NewRestaurantForm = ({ createRestaurant }: NewRestaurantFormProps) 
     </form>
   );
 };
-
-function readForm(event: React.FormEvent<HTMLFormElement>) {
-  const form = event.currentTarget;
-  const data = new FormData(form);
-  // TODO: validate properly
-  const restaurantName = String(data.get("restaurant") ?? "").trim();
-  return { form, restaurantName };
-}
