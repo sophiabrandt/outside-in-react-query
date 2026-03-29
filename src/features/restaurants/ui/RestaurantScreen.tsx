@@ -3,7 +3,7 @@ import {
   restaurantQueryKeys,
   useNewRestaurantDataMutation,
   useRestaurantQuery,
-} from "../utils/useRestaurantQueries";
+} from "../hooks/useRestaurantQueries";
 import { NewRestaurantForm } from "./NewRestaurantForm";
 import { RestaurantList } from "./RestaurantList";
 import {
@@ -22,7 +22,7 @@ const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   return (
     <div role="alert">
       <p>Something went wrong:</p>
-      <pre style={{ color: "red" }}>
+      <pre className="text-red-500">
         {error instanceof Error ? error.message : "Something went wrong"}
       </pre>
       <Button onClick={resetErrorBoundary}>Try again</Button>
@@ -45,19 +45,18 @@ export const RestaurantsScreen = () => {
 };
 
 const RestaurantsDisplay = () => {
-  const { data: restaurants } = useRestaurantQuery();
+  const restaurants = useRestaurantQuery();
   const newRestaurant = useNewRestaurantDataMutation();
 
-  if (restaurants) {
+  if (restaurants.data) {
     return (
       <div className="mx-8">
         <NewRestaurantForm createRestaurant={newRestaurant.mutate} />
         <Spacer size="sm" />
-        <RestaurantList restaurants={restaurants} />
+        <RestaurantList restaurants={restaurants.data} />
       </div>
     );
   }
-
   return <LoadingSkeleton />;
 };
 

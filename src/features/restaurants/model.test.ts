@@ -1,10 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  validateRestaurants,
-  validateRestaurantInput,
-  restaurantsSchema,
-  restaurantNoIdSchema,
-} from "./model";
+import { validateRestaurants, validateRestaurantInput } from "./model";
 
 describe("restaurants model validation", () => {
   describe("validateRestaurants", () => {
@@ -15,40 +10,30 @@ describe("restaurants model validation", () => {
       ];
 
       const result = validateRestaurants(input);
-      expect(result).toEqual(input);
+      expect(result).toEqual({ success: true, data: input });
     });
 
     it("accepts an empty array", () => {
       const input: unknown = [];
       const result = validateRestaurants(input);
-      expect(result).toEqual([]);
+      expect(result).toEqual({ success: true, data: [] });
     });
 
-    it("throws a generic error when the payload is invalid (bad shape)", () => {
-      // Missing `id` and name too short
+    it("returns errors when the payload is invalid (bad shape)", () => {
       const bad = [{ name: "A" }];
+      const result = validateRestaurants(bad);
 
-      expect(() => validateRestaurants(bad)).toThrowError("Failed to parse restaurants response");
-    });
-
-    it("throws when passed a non-array value", () => {
-      const bad: unknown = { id: 1, name: "AB" };
-      expect(() => validateRestaurants(bad)).toThrowError("Failed to parse restaurants response");
-    });
-
-    it("rethrows non-Zod errors from the schema parse", () => {
-      const originalParse = restaurantsSchema.parse;
-      // Replace parse with a function that throws a non-Zod error
-      (restaurantsSchema as any).parse = () => {
-        throw new Error("unexpected non-zod error");
-      };
-
-      try {
-        expect(() => validateRestaurants([])).toThrow("unexpected non-zod error");
-      } finally {
-        // Restore original parse to avoid leaking state to other tests
-        (restaurantsSchema as any).parse = originalParse;
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.errors).toContain("Too short! At least 2 characters are required");
       }
+    });
+
+    it("returns errors when passed a non-array value", () => {
+      const bad: unknown = { id: 1, name: "AB" };
+      const result = validateRestaurants(bad);
+
+      expect(result.success).toBe(false);
     });
   });
 
@@ -56,37 +41,30 @@ describe("restaurants model validation", () => {
     it("returns the name when input is valid", () => {
       const name = "Nice Place";
       const result = validateRestaurantInput(name);
-      expect(result).toBe(name);
+      expect(result).toEqual({ success: true, data: name });
     });
 
     it("accepts a short-but-valid name of length 2", () => {
       const name = "OK";
-      expect(validateRestaurantInput(name)).toBe(name);
+      const result = validateRestaurantInput(name);
+      expect(result).toEqual({ success: true, data: name });
     });
 
-    it("throws a descriptive error when the name is too short", () => {
+    it("returns errors when the name is too short", () => {
       const badName = "A";
-      expect(() => validateRestaurantInput(badName)).toThrowError(/^Invalid restaurant input:/);
-    });
+      const result = validateRestaurantInput(badName);
 
-    it("throws a descriptive error when input type is invalid", () => {
-      const badInput: unknown = 123;
-      expect(() => validateRestaurantInput(badInput)).toThrowError(/^Invalid restaurant input:/);
-    });
-
-    it("rethrows non-Zod errors from the input schema parse", () => {
-      const originalParse = restaurantNoIdSchema.parse;
-      // Replace parse with a function that throws a non-Zod error
-      (restaurantNoIdSchema as any).parse = () => {
-        throw new TypeError("some other parse failure");
-      };
-
-      try {
-        expect(() => validateRestaurantInput("anything")).toThrow("some other parse failure");
-      } finally {
-        // Restore original parse to avoid leaking state to other tests
-        (restaurantNoIdSchema as any).parse = originalParse;
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.errors).toContain("Too short! At least 2 characters are required");
       }
+    });
+
+    it("returns errors when input type is invalid", () => {
+      const badInput: unknown = 123;
+      const result = validateRestaurantInput(badInput);
+
+      expect(result.success).toBe(false);
     });
   });
 });

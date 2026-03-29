@@ -39,7 +39,7 @@ describe("RestaurantScreen", () => {
     it("should render the error fallback and call resetQueries on 'Try again'", async () => {
       // Arrange
       vi.resetModules();
-      vi.doMock("../utils/useRestaurantQueries", () => {
+      vi.doMock("../hooks/useRestaurantQueries", () => {
         return {
           restaurantQueryKeys: { all: ["restaurants"] as const },
           useRestaurantQuery: () => {
@@ -82,7 +82,7 @@ describe("RestaurantScreen", () => {
     it("should render generic message when thrown value is non-Error", async () => {
       // Arrange
       vi.resetModules();
-      vi.doMock("../utils/useRestaurantQueries", () => {
+      vi.doMock("../hooks/useRestaurantQueries", () => {
         return {
           restaurantQueryKeys: { all: ["restaurants"] as const },
           useRestaurantQuery: () => {
