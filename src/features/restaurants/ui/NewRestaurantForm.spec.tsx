@@ -11,7 +11,7 @@ describe("NewRestaurantForm", () => {
 
     render(
       <ErrorBoundary fallbackRender={() => <div>error</div>}>
-        <NewRestaurantForm createRestaurant={createRestaurant} />
+        <NewRestaurantForm createRestaurant={createRestaurant} status="idle" />
       </ErrorBoundary>,
     );
 
@@ -32,7 +32,7 @@ describe("NewRestaurantForm", () => {
 
     render(
       <ErrorBoundary fallbackRender={() => <div>error</div>}>
-        <NewRestaurantForm createRestaurant={createRestaurant} />
+        <NewRestaurantForm createRestaurant={createRestaurant} status="idle" />
       </ErrorBoundary>,
     );
 
@@ -44,5 +44,16 @@ describe("NewRestaurantForm", () => {
 
     expect(createRestaurant).toHaveBeenNthCalledWith(1, restaurantName);
     expect(screen.getByRole("textbox")).toHaveValue("");
+  });
+
+  it("should disable the form on pending state", async () => {
+    render(
+      <ErrorBoundary fallbackRender={() => <div>error</div>}>
+        <NewRestaurantForm createRestaurant={vi.fn()} status="pending" />
+      </ErrorBoundary>,
+    );
+
+    expect(screen.getByRole("textbox")).toHaveValue("");
+    expect(screen.getByRole("button", { name: /add/i })).toHaveAttribute("disabled");
   });
 });

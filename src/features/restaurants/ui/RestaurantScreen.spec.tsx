@@ -1,10 +1,11 @@
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { simpleFaker, faker } from "@faker-js/faker";
 import { http, HttpResponse } from "msw";
 import { setupServer, SetupServerApi } from "msw/node";
+import userEvent from "@testing-library/user-event";
 
 describe("RestaurantScreen", () => {
   describe("data", () => {
@@ -24,6 +25,13 @@ describe("RestaurantScreen", () => {
 
       await waitFor(() => expect(screen.getByText(mockResponse[0].name)).toBeInTheDocument());
       await waitFor(() => expect(screen.getByText(mockResponse[1].name)).toBeInTheDocument());
+    });
+
+    it("should render the new restaurant form", async () => {
+      await setupSut();
+
+      await waitFor(() => expect(screen.getByRole("textbox")).toBeInTheDocument());
+      await waitFor(() => expect(screen.getByRole("button", { name: /add/i })).toBeInTheDocument());
     });
   });
 
@@ -48,6 +56,7 @@ describe("RestaurantScreen", () => {
           useNewRestaurantDataMutation: () => ({ mutate: () => {} }),
         };
       });
+      const user = userEvent.setup();
 
       // Act
       const { RestaurantsScreen } = await import("./RestaurantScreen");
@@ -72,7 +81,7 @@ describe("RestaurantScreen", () => {
       expect(screen.getByText("Something went wrong:")).toBeInTheDocument();
 
       // Act: click Try again
-      fireEvent.click(screen.getByText("Try again"));
+      await user.click(screen.getByText("Try again"));
 
       // Assert
       expect(resetSpy).toHaveBeenCalled();
