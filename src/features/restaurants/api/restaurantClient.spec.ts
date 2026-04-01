@@ -127,5 +127,32 @@ describe("restaurantApiClient", () => {
         });
       });
     });
+
+    describe("error case", () => {
+      const server = setupServer(
+        http.post("*/restaurants", () => {
+          return HttpResponse.json(null);
+        }),
+      );
+
+      beforeAll(() => {
+        // Fail tests if there's an unhandled request to help catch mismatched routes.
+        server.listen({ onUnhandledRequest: "error" });
+      });
+
+      afterEach(() => {
+        server.resetHandlers();
+      });
+
+      afterAll(() => {
+        server.close();
+      });
+
+      it("should throw a validation error if response does not conform with schema", async () => {
+        await expect(restaurantClient.post("TEST")).rejects.toThrowError(
+          "Failed to parse restaurant response",
+        );
+      });
+    });
   });
 });

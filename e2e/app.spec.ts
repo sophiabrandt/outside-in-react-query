@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Show error toast", () => {
-  test("shows restaurants from server", async ({ page }) => {
+test.describe("Show error boundary", () => {
+  test("shows error boundary when response cannot be parsed", async ({ page }) => {
     // Arrange
     await page.route("**/api.outsidein.dev/*/restaurants", (route) => {
       route.fulfill({ json: null });

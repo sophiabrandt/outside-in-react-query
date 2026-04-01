@@ -2,6 +2,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { createQueryClient } from "./queryClient";
 import { Toaster } from "@/shared/components/ui/sonner";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = createQueryClient();
 
@@ -14,6 +15,7 @@ export const Providers = ({ children }: ProvidersProps): ReactNode => {
     <QueryClientProvider client={queryClient}>
       {children}
       <Toaster />
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 };
