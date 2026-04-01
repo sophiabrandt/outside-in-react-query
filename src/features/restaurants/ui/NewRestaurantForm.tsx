@@ -4,16 +4,26 @@ import { useNewRestaurantDataMutation } from "../hooks/useRestaurantQueries";
 import { useNewRestaurantForm } from "../hooks/useNewRestaurantForm";
 import type { MutationStatus } from "@tanstack/react-query";
 import clsx from "clsx";
+import { toast } from "sonner";
 
 interface NewRestaurantFormProps {
   createRestaurant: ReturnType<typeof useNewRestaurantDataMutation>["mutate"];
   status: MutationStatus;
+  error: Error | null;
 }
 
-export const NewRestaurantForm = ({ createRestaurant, status }: NewRestaurantFormProps) => {
+export const NewRestaurantForm = ({ createRestaurant, status, error }: NewRestaurantFormProps) => {
   const { onSubmit, validationError } = useNewRestaurantForm(createRestaurant);
 
   const isLoading = status === "pending";
+  const isError = status === "error";
+
+  if (isError) {
+    toast.error(error?.message, {
+      position: "top-center",
+      duration: 5_000,
+    });
+  }
 
   return (
     <form id="add-restaurant" noValidate onSubmit={onSubmit}>

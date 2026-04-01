@@ -15,6 +15,10 @@ export const restaurantClient = Object.freeze({
   },
   post: async (name: Restaurant["name"]): Promise<Restaurant> => {
     const raw = await ky.post(`${baseURL}/restaurants`, { json: { name } }).json();
-    return restaurantSchema.parse(raw);
+    try {
+      return restaurantSchema.parse(raw);
+    } catch {
+      throw new Error("Failed to parse restaurant response");
+    }
   },
 });

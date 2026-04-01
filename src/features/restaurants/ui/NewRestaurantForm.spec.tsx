@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { ErrorBoundary } from "react-error-boundary";
 import { NewRestaurantForm } from "./NewRestaurantForm";
+import { toast } from "sonner";
 
 describe("NewRestaurantForm", () => {
   it("should show a validation error and not submit when restaurant name is too short", async () => {
@@ -11,7 +12,7 @@ describe("NewRestaurantForm", () => {
 
     render(
       <ErrorBoundary fallbackRender={() => <div>error</div>}>
-        <NewRestaurantForm createRestaurant={createRestaurant} status="idle" />
+        <NewRestaurantForm createRestaurant={createRestaurant} status="idle" error={null} />
       </ErrorBoundary>,
     );
 
@@ -32,7 +33,7 @@ describe("NewRestaurantForm", () => {
 
     render(
       <ErrorBoundary fallbackRender={() => <div>error</div>}>
-        <NewRestaurantForm createRestaurant={createRestaurant} status="idle" />
+        <NewRestaurantForm createRestaurant={createRestaurant} status="idle" error={null} />
       </ErrorBoundary>,
     );
 
@@ -49,11 +50,26 @@ describe("NewRestaurantForm", () => {
   it("should disable the form on pending state", async () => {
     render(
       <ErrorBoundary fallbackRender={() => <div>error</div>}>
-        <NewRestaurantForm createRestaurant={vi.fn()} status="pending" />
+        <NewRestaurantForm createRestaurant={vi.fn()} status="pending" error={null} />
       </ErrorBoundary>,
     );
 
     expect(screen.getByRole("textbox")).toHaveValue("");
     expect(screen.getByRole("button", { name: /add/i })).toHaveAttribute("disabled");
+  });
+
+  it("show error toast", async () => {
+    const testError = new Error("TEST ERROR");
+    const spy = vi.spyOn(toast, "error");
+
+    render(
+      <ErrorBoundary fallbackRender={() => <div>error</div>}>
+        <NewRestaurantForm createRestaurant={vi.fn()} status="error" error={testError} />
+      </ErrorBoundary>,
+    );
+
+    expect(spy).toHaveBeenCalledOnce();
+
+    spy.mockRestore();
   });
 });

@@ -51,7 +51,11 @@ const RestaurantsDisplay = () => {
   if (restaurants.data) {
     return (
       <div className="mx-8">
-        <NewRestaurantForm createRestaurant={newRestaurant.mutate} status={newRestaurant.status} />
+        <NewRestaurantForm
+          createRestaurant={newRestaurant.mutate}
+          status={newRestaurant.status}
+          error={newRestaurant.error}
+        />
         <Spacer size="sm" />
         <RestaurantList restaurants={restaurants.data} />
       </div>
