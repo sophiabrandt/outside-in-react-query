@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/npm/oxlint/configuration_schema.json",
-  "plugins": ["typescript", "unicorn", "oxc", "promise", "import", "node"],
+  "plugins": ["typescript", "unicorn", "oxc", "promise", "import", "node", "react", "react-hooks"],
   "env": {
     "node": true,
     "es2024": true
@@ -12,6 +12,11 @@
     "correctness": "error",
     "suspicious": "warn",
     "perf": "warn"
+  },
+  "settings": {
+    "react": {
+      "version": "19.2.0"
+    }
   },
   "rules": {
     "no-console": "off",
